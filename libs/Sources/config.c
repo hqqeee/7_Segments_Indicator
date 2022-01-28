@@ -36,13 +36,11 @@ void rcc_config(void)
 	 * PLL configuration.
 	 * PLL Source: HSI/2 
 	 * PLL Multiplier: 12
-	 * Check Clock configuration register(RCC_CFGR) in RM0091.
 	 */
 	SET_BIT(RCC->CFGR, (RCC_CFGR_PLLSRC_HSI_DIV2 | RCC_CFGR_PLLMUL12));				
 	/* 
 	 * Enable PLL
 	 * Set PLLON bit
-	 * Check clock control register(RCC_CR) in RM0091.
 	 */
 	SET_BIT(RCC->CR, RCC_CR_PLLON);
 	/*
@@ -61,7 +59,6 @@ void rcc_config(void)
 	while(READ_BIT(RCC->CFGR, RCC_CFGR_SWS) != RCC_CFGR_SWS_PLL);
 	/*
 	 * Set Flash Latency 1
-	 * Check Flash access control register(FLASH_ACR) in RM0091
 	 */
 	SET_BIT(FLASH->ACR, FLASH_ACR_LATENCY);
 	#endif /* SYSCLK48*/
@@ -72,7 +69,6 @@ static void rcc_reset(void)
 	/* 
 	 * HSI Enable 
 	 * Set HSION bit 
-	 * Check Clock control register(RCC_CR) in RM0091.
 	 */
 	SET_BIT(RCC->CR,RCC_CR_HSION);
 	/* 
@@ -91,9 +87,6 @@ static void rcc_reset(void)
 	/*
 	 * RCC configuration reset.
 	 * System clock(SW[1:0] = 00): HSI
-	 * Check Clock configuration register(RCC_CFGR) in RM0091.
-	 * Check Clock configuration register(RCC_CFGR2) in RM0091.
-	 * Check Clock configuration register(RCC_CFGR3) in RM0091.
 	 */
 	CLEAR_REG(RCC->CFGR);
 	CLEAR_REG(RCC->CFGR2);
@@ -105,9 +98,22 @@ static void rcc_reset(void)
 	while(READ_BIT(RCC->CFGR, RCC_CFGR_SWS));
 	/*
 	 * Clock interrupt register reset(Disable RCC interruts).
-	 * Check clock interrupt register(CIR) in RM0091
 	 */
 	CLEAR_REG(RCC->CIR);
-
 }
 
+void gpio_config(void)
+{
+	/* 
+	 * Clock on CPIOA, GPIOB, GPIOC
+	 */
+	SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN));	
+	/* 
+	 * GPIOA 0(build-in discovery board button)  in input mode.
+	 * GPIOB 0-12(connection of 7 segment indicator) pins in GP output mode.
+	 * GPIOC 8-9(build-in discovery board LEDs) in GP output mode.
+	 */
+	CLEAR_BIT(GPIOA->MODER, GPIO_MODER_MODER0);
+	SET_BIT(GPIOB->MODER, 0x00AAAAAA);
+	SET_BIT(GPIOC->MODER, 0x000A0000);
+}
