@@ -29,6 +29,7 @@
  *				> Port A for pin 0 extarnal interrupt.
  *				> EXTI0 trigger: Rising
  *				> EXTI0 priority: 0
+ *	 - SystemCoreClock variable equal System clock frequency. Needed in SysTick.			
  */
 
 #include "main.h"
