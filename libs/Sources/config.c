@@ -21,12 +21,21 @@
  *				> Flash Latenct:	   0
  *
  *	 - rcc_reset(): Resets configurations bits, disable PLL, HSE and RCC interrupts.
- *
+ *	 - gpio_config(): Configure GPIO as follow:
+ *	 			> GPIOA pin 0: Input
+ *	 			> GPIOB pin 0-12: Output
+ *	 			> GPIOC pin 8-0: Output
+ *	 - exti_config(): Configure EXTI.
+ *				> Port A for pin 0 extarnal interrupt.
+ *				> EXTI0 trigger: Rising
+ *				> EXTI0 priority: 0
  */
 
 #include "main.h"
 
 static void rcc_reset(void);
+
+uint32_t SystemCoreClock = 8000000;
 
 void rcc_config(void)
 {
@@ -61,6 +70,7 @@ void rcc_config(void)
 	 * Set Flash Latency 1
 	 */
 	SET_BIT(FLASH->ACR, FLASH_ACR_LATENCY);
+	SystemCoreClock = 48000000;
 	#endif /* SYSCLK48*/
 }
 
@@ -105,7 +115,7 @@ static void rcc_reset(void)
 void gpio_config(void)
 {
 	/* 
-	 * Clock on CPIOA, GPIOB, GPIOC
+	 * Periph clock on CPIOA, GPIOB, GPIOC
 	 */
 	SET_BIT(RCC->AHBENR, (RCC_AHBENR_GPIOAEN | RCC_AHBENR_GPIOBEN | RCC_AHBENR_GPIOCEN));	
 	/* 
@@ -116,4 +126,26 @@ void gpio_config(void)
 	CLEAR_BIT(GPIOA->MODER, GPIO_MODER_MODER0);
 	SET_BIT(GPIOB->MODER, 0x00AAAAAA);
 	SET_BIT(GPIOC->MODER, 0x000A0000);
+}
+
+void exti_config(void)
+{
+	/*
+	 * Periph clock on system configuration controller(SYSCFG).
+	 */
+	SET_BIT(RCC->APB2ENR, RCC_APB2ENR_SYSCFGCOMPEN);
+	/*
+	 * Select port A for pin 0 external interrupt.
+	 * Unmask Interrupt request(IR0).
+	 * Set rising trigger for IR0.
+	 */
+	CLEAR_BIT(SYSCFG->EXTICR1, 0x7);
+	SET_BIT(EXTI->IMR, EXTI_IMR_MR0);
+	SET_BIT(EXTI->RTSR, EXTI_RTSR_TR0);
+	/*
+	 * NVIC Configure.
+	 * Enable interrupt EXTI0_1 and set priotiry.
+	 */
+	NVIC_EnableIRQ(EXTI0_1_IRQn);
+	NVIC_SetPriority(EXTI0_1_IRQn, 0);
 }
