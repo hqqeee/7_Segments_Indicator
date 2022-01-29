@@ -88,7 +88,7 @@ gdbr: $(PROJECT).elf
 
 # ELF and Binary
 $(PROJECT).elf: $(OBJS)
-	$(LD) $(LDFLAGS) $^ $(CFLAGS) -o $@
+	$(LD) $(LDFLAGS) $^ $(CFLAGS) -o $@ -lgcc
 %.bin: %.elf
 	$(OBJC) -O binary $< $@
 

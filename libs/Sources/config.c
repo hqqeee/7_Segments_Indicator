@@ -125,8 +125,8 @@ void gpio_config(void)
 	 * GPIOC 8-9(build-in discovery board LEDs) in GP output mode.
 	 */
 	CLEAR_BIT(GPIOA->MODER, GPIO_MODER_MODER0);
-	SET_BIT(GPIOB->MODER, 0x00AAAAAA);
-	SET_BIT(GPIOC->MODER, 0x000A0000);
+	SET_BIT(GPIOB->MODER, 0x1555555);
+	SET_BIT(GPIOC->MODER, 0x00050000);
 }
 
 void exti_config(void)
@@ -140,7 +140,7 @@ void exti_config(void)
 	 * Unmask Interrupt request(IR0).
 	 * Set rising trigger for IR0.
 	 */
-	CLEAR_BIT(SYSCFG->EXTICR1, 0x7);
+	CLEAR_BIT(SYSCFG->EXTICR[0], 0x7);
 	SET_BIT(EXTI->IMR, EXTI_IMR_MR0);
 	SET_BIT(EXTI->RTSR, EXTI_RTSR_TR0);
 	/*

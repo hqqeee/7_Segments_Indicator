@@ -25,24 +25,29 @@
  *    PB3
  */
 
-#define DISP_0 0x3F
-#define DISP_1 0x06
-#define DISP_2 0x5B
-#define DISP_3 0x4F
-#define DISP_4 0x66
-#define DISP_5 0x6D
-#define DISP_6 0x7D
-#define DISP_7 0x07
-#define DISP_8 0x7F
-#define DISP_9 0x6F
-#define DISP_H 0x76 
-#define DISP_A 0x77
-#define DISP_E 0x79
-#define DISP_L 0x38
-#define DISP_P 0x33
-#define DIG1_MSK 0x1F00
-#define DIG2_MSK 0x1E80
-#define DIG3_MSK 0x1D80
-#define DIG4_MSK 0x1B80
-#define DIG5_MSK 0x1780
-#define DIG6_MSK 0xF80
+#ifndef __DISPLAY_CODES_H
+#define __DISPLAY_CODES_H
+
+#define DISP_0 0x3FU
+#define DISP_1 0x06U
+#define DISP_2 0x5BU
+#define DISP_3 0x4FU
+#define DISP_4 0x66U
+#define DISP_5 0x6DU
+#define DISP_6 0x7DU
+#define DISP_7 0x07U
+#define DISP_8 0x7FU
+#define DISP_9 0x6FU
+#define DISP_H 0x76U
+#define DISP_A 0x77U
+#define DISP_E 0x79U
+#define DISP_L 0x38U
+#define DISP_P 0x73U
+#define DIG1_MSK 0xFF00U
+#define DIG2_MSK 0xFE80U
+#define DIG3_MSK 0xFD80U
+#define DIG4_MSK 0xFB80U
+#define DIG5_MSK 0xF780U
+#define DIG6_MSK 0xEF80U
+
+#endif /* __DISPLAY_CODES_H */
