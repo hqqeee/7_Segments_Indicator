@@ -22,7 +22,6 @@ int main(void)
 	 */
 	while(SysTick_Config(SystemCoreClock/1000));
 	startup_animation();
-	//WRITE_REG(GPIOB -> ODR, 0x1FFF);
 	
 	WRITE_REG(GPIOB -> ODR, 0x0);
 	SET_BIT(GPIOC -> ODR, 0x200);
