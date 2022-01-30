@@ -91,8 +91,8 @@ static void running_line(void)
 	while(counter)
 	{
 		counter--;	
-		uint16_t delay_count = 10000; // TMP
-		while(delay_count != 0){      // TMP
+		uint16_t delay_count = 10000;
+		while(delay_count != 0){ 
 			uint8_t dig_num = 6;
 			while(dig_num != 0)
 			{

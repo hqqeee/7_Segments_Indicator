@@ -1,9 +1,3 @@
-/*
- *	Main header file.
- *		It contains includes from other headers.
- *
- */
-
 #ifndef  __MAIN_H
 #define  __MAIN_H
 
